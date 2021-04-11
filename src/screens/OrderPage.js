@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import React, {Component} from 'react';
+import {View, StyleSheet} from 'react-native';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
-import { Text } from '../styles/Typography';
-import { Card, Container, Layout, Row } from '../styles/StyledComponent';
-import { theme } from '../styles/ThemeColor';
+import {Text} from '../styles/Typography';
+import {Card, Container, Layout, Row} from '../styles/StyledComponent';
+import {theme} from '../styles/ThemeColor';
 import ButtonCustom from '../components/ButtonCustom';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { sendSeatOrder } from '../redux/actions/order';
-import { connect } from 'react-redux';
+import {sendSeatOrder} from '../redux/actions/order';
+import {connect} from 'react-redux';
 import OrderSeat from './OrderSeat';
 
 class Seat extends Component {
@@ -20,7 +19,7 @@ class Seat extends Component {
         <View
           style={[
             seatStyles.component,
-            this.props.selected && seatStyles.selected
+            this.props.selected && seatStyles.selected,
           ]}
         />
       </TouchableOpacity>
@@ -34,22 +33,22 @@ const seatStyles = StyleSheet.create({
     height: 15,
     margin: 2,
     borderRadius: 2,
-    backgroundColor: '#D6D8E7'
+    backgroundColor: '#D6D8E7',
   },
   selected: {
-    backgroundColor: '#5F2EEA'
-  }
+    backgroundColor: '#5F2EEA',
+  },
 });
 
 export class OrderPage extends Component {
   state = {
-    selectedSeat: []
+    selectedSeat: [],
   };
-  selectSeat = (id) => {
-    const { selectedSeat } = this.state;
+  selectSeat = id => {
+    const {selectedSeat} = this.state;
     console.log(id);
-    this.setState({ selectedSeat: [...selectedSeat, ...[id]] }, () => {
-      const { selectedSeat } = this.state;
+    this.setState({selectedSeat: [...selectedSeat, ...[id]]}, () => {
+      const {selectedSeat} = this.state;
       const getSeat = this.props.sendSeatOrder(selectedSeat);
       console.log(getSeat);
     });
@@ -75,7 +74,7 @@ export class OrderPage extends Component {
                       {[1, 2, 3, 4, 5, 6, 7].map((row, id) => (
                         <Seat
                           selected={this.state.selectedSeat.includes(
-                            `${col}${row}`
+                            `${col}${row}`,
                           )}
                           onPress={() => this.selectSeat(`${col}${row}`)}
                         />
@@ -90,7 +89,7 @@ export class OrderPage extends Component {
                       {[8, 9, 10, 11, 12, 13, 14].map((row, id) => (
                         <Seat
                           selected={this.state.selectedSeat.includes(
-                            `${col}${row}`
+                            `${col}${row}`,
                           )}
                           onPress={() => this.selectSeat(`${col}${row}`)}
                         />
@@ -141,89 +140,20 @@ export class OrderPage extends Component {
           {/* section 3 */}
           <Card mt="20" mb="20" border="white">
             <Row justify="space-between">
-              <Text semibold size="16" style={{ flexWrap: 'wrap', flex: 1 }}>
+              <Text semibold size="16" style={{flexWrap: 'wrap', flex: 1}}>
                 Choosed
               </Text>
               <Text
                 semibold
                 size="16"
-                style={{ flexWrap: 'wrap', flex: 1, textAlign: 'right' }}>
+                style={{flexWrap: 'wrap', flex: 1, textAlign: 'right'}}>
                 {chooseSeats}
               </Text>
             </Row>
           </Card>
           {/* section 4 */}
           <Card mb="20" border="white" elevation="3">
-            <Row justify="space-between">
-              <DropDownPicker
-                items={[
-                  {
-                    label: 'USA',
-                    value: 'usa'
-                  },
-                  {
-                    label: 'UK',
-                    value: 'uk'
-                  },
-                  {
-                    label: 'France',
-                    value: 'france'
-                  }
-                ]}
-                defaultValue={this.state.date}
-                containerStyle={{ height: 60 }}
-                style={{
-                  backgroundColor: '#EFF0F6',
-                  minHeight: 48,
-                  minWidth: '45%',
-                  borderColor: 'white'
-                }}
-                itemStyle={{
-                  justifyContent: 'flex-start'
-                }}
-                dropDownStyle={{ backgroundColor: '#fafafa' }}
-                onChangeItem={(item) =>
-                  this.setState({
-                    date: item.value
-                  })
-                }
-              />
-              <DropDownPicker
-                items={[
-                  {
-                    label: 'USA',
-                    value: 'usa',
-                    hidden: true
-                  },
-                  {
-                    label: 'UK',
-                    value: 'uk'
-                  },
-                  {
-                    label: 'France',
-                    value: 'france'
-                  }
-                ]}
-                placeholder=""
-                defaultValue={this.state.location}
-                containerStyle={{ height: 60 }}
-                style={{
-                  backgroundColor: '#EFF0F6',
-                  minHeight: 48,
-                  minWidth: '45%',
-                  borderColor: 'white'
-                }}
-                itemStyle={{
-                  justifyContent: 'flex-start'
-                }}
-                dropDownStyle={{ backgroundColor: '#fafafa' }}
-                onChangeItem={(item) =>
-                  this.setState({
-                    location: item.value
-                  })
-                }
-              />
-            </Row>
+            <Row justify="space-between"></Row>
           </Card>
           {/* section 5 */}
           <ButtonCustom color="transparent" size="large" mb="50">
@@ -278,57 +208,57 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#9570FE'
+    backgroundColor: '#9570FE',
   },
   cardSeat: {
     borderRadius: 17,
-    borderColor: 'white'
+    borderColor: 'white',
   },
   spaceSeat: {
-    padding: 10
+    padding: 10,
   },
   dividerSeat: {
     marginTop: 5,
-    backgroundColor: '#ED2E7E'
+    backgroundColor: '#ED2E7E',
   },
   seatAvailable: {
     width: 15,
     height: 15,
     borderRadius: 4,
-    backgroundColor: '#D6D8E7'
+    backgroundColor: '#D6D8E7',
   },
   seatLovenest: {
     width: 15,
     height: 15,
     borderRadius: 4,
-    backgroundColor: '#F589D7'
+    backgroundColor: '#F589D7',
   },
   seatSelected: {
     width: 15,
     height: 15,
     borderRadius: 4,
-    backgroundColor: '#5F2EEA'
+    backgroundColor: '#5F2EEA',
   },
   seatSold: {
     width: 15,
     height: 15,
     borderRadius: 4,
-    backgroundColor: '#6E7171'
+    backgroundColor: '#6E7171',
   },
   cardChoosed: {
     borderRadius: 16,
     marginTop: 30,
-    borderColor: 'white'
+    borderColor: 'white',
   },
   cardSeatChoosed: {
     borderColor: 'white',
     borderRadius: 16,
     marginTop: 30,
-    elevation: 4
+    elevation: 4,
   },
   select: {
-    minWidth: '40%'
-  }
+    minWidth: '40%',
+  },
 });
 
 const TextDesc = styled.Text`
@@ -354,10 +284,10 @@ const DividerSeat = styled.View`
   margin-top: 5;
 `;
 
-const mapStateToProps = (state) => ({
-  order: state.order
+const mapStateToProps = state => ({
+  order: state.order,
 });
 
-const mapDispatchToProps = { sendSeatOrder };
+const mapDispatchToProps = {sendSeatOrder};
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderPage);

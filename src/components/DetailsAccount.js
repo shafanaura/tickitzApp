@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   StyleSheet,
   ActivityIndicator,
-  RefreshControl
+  RefreshControl,
 } from 'react-native';
-import { Text, TextLight, ErrorText } from '../styles/Typography';
-import { Card, Center, Container, Layout } from '../styles/StyledComponent';
+import {Text, TextLight, ErrorText} from '../styles/Typography';
+import {Card, Center, Container, Layout} from '../styles/StyledComponent';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/Feather';
 import * as Progress from 'react-native-progress';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import Footer from './Footer';
 import FormInput from './Form/FormInput';
 import FormPassword from './Form/FormPassword';
 import ButtonCustom from './ButtonCustom';
-import { theme } from '../styles/ThemeColor';
+import {theme} from '../styles/ThemeColor';
 import LogoutButton from '../components/LogoutButton';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import AlertCustom from '../components/AlertCustom';
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 import * as yup from 'yup';
-import { updateUser } from '../redux/actions/auth';
-import { getUserDetail } from '../redux/actions/user';
+import {updateUser} from '../redux/actions/auth';
+import {getUserDetail} from '../redux/actions/user';
 import Test from '../test/Test';
 
 const UpdateValidation = yup.object().shape({
@@ -30,10 +30,10 @@ const UpdateValidation = yup.object().shape({
   phoneNumber: yup.number('Number only'),
   password: yup
     .string()
-    .min(6, ({ min }) => `Passowrd must be at least ${min} characters`),
+    .min(6, ({min}) => `Passowrd must be at least ${min} characters`),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password')], 'Passwords do not match')
+    .oneOf([yup.ref('password')], 'Passwords do not match'),
 });
 
 export class DetailsAccount extends Component {
@@ -42,19 +42,19 @@ export class DetailsAccount extends Component {
     this.state = {
       message: '',
       isLoading: false,
-      refreshing: false
+      refreshing: false,
     };
   }
   componentDidUpdate(prevState, prevProps) {
     if (prevState.fullName !== prevProps.fullName) {
       const getSeat = this.props.getUserDetail(
         this.props.auth.token,
-        this.props.auth.userData.id
+        this.props.auth.userData.id,
       );
       console.log(getSeat);
     }
   }
-  save = async (values) => {
+  save = async values => {
     await this.props.updateUser(
       this.props.auth.token,
       this.props.auth.userData.id,
@@ -62,25 +62,25 @@ export class DetailsAccount extends Component {
         email: values.email,
         fullName: values.fullName,
         phoneNumber: values.phoneNumber,
-        password: values.password
-      }
+        password: values.password,
+      },
     );
     if (this.props.auth.message !== '') {
       this.setState({
-        message: this.props.auth.message
+        message: this.props.auth.message,
       });
     } else {
-      this.setState({ message: this.props.auth.errorMsg });
+      this.setState({message: this.props.auth.errorMsg});
     }
   };
   _onRefresh = () => {
-    this.setState({ refreshing: true });
+    this.setState({refreshing: true});
     fetchData().then(() => {
-      this.setState({ refreshing: false });
+      this.setState({refreshing: false});
     });
   };
   render() {
-    const { userDetail } = this.props.user;
+    const {userDetail} = this.props.user;
     return (
       <ScrollView>
         <Container
@@ -132,9 +132,9 @@ export class DetailsAccount extends Component {
               fullName: userDetail.fullName,
               phoneNumber: userDetail.phoneNumber,
               password: '',
-              confirmPassword: ''
+              confirmPassword: '',
             }}
-            onSubmit={(values) => this.save(values)}>
+            onSubmit={values => this.save(values)}>
             {({
               handleChange,
               handleBlur,
@@ -144,7 +144,7 @@ export class DetailsAccount extends Component {
               initialTouched,
               isValid,
               errors,
-              touched
+              touched,
             }) => (
               <>
                 <Card>
@@ -315,22 +315,22 @@ const Image = styled.Image`
 const styles = StyleSheet.create({
   avatar: {
     margin: 8,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   btn: {
     marginVertical: 20,
-    borderRadius: 8
-  }
+    borderRadius: 8,
+  },
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   auth: state.auth,
-  user: state.user
+  user: state.user,
 });
 
 const mapDispatchToProps = {
   updateUser,
-  getUserDetail
+  getUserDetail,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailsAccount);

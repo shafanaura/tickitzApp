@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, {Component} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import Register from '../screens/Register';
 import Login from '../screens/Login';
@@ -14,13 +14,13 @@ import ProfilePage from '../screens/ProfilePage';
 
 import HeaderAuth from '../components/HeaderAuth';
 import HeaderHome from '../components/HeaderHome';
-import { connect } from 'react-redux';
-import { login, autoLogin } from '../redux/actions/auth';
+import {connect} from 'react-redux';
+import {login, autoLogin} from '../redux/actions/auth';
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import ViewAll from '../screens/ViewAll';
 
-const { Navigator, Screen } = createStackNavigator();
+const {Navigator, Screen} = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 class AppNavigator extends Component {
@@ -42,21 +42,21 @@ class AppNavigator extends Component {
             <>
               <Screen
                 options={{
-                  header: () => <HeaderAuth />
+                  header: () => <HeaderAuth />,
                 }}
                 name="register"
                 component={Register}
               />
               <Screen
                 options={{
-                  header: () => <HeaderAuth />
+                  header: () => <HeaderAuth />,
                 }}
                 name="login"
                 component={Login}
               />
               <Screen
                 options={{
-                  header: () => <HeaderAuth />
+                  header: () => <HeaderAuth />,
                 }}
                 name="forgot-password"
                 component={ForgotPassword}
@@ -69,9 +69,9 @@ class AppNavigator extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  auth: state.auth
+const mapStateToProps = state => ({
+  auth: state.auth,
 });
-const mapDispatchToProps = { login, autoLogin };
+const mapDispatchToProps = {login, autoLogin};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppNavigator);

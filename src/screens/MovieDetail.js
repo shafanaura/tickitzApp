@@ -1,38 +1,31 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, FlatList, Button } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import React, {Component} from 'react';
+import {View, StyleSheet, FlatList, Button} from 'react-native';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Footer from '../components/Footer';
 import Spider from '../assets/images/movies/spiderman.jpg';
 import Icon from 'react-native-vector-icons/Feather';
 import cinema from '../assets/images/cinemas/hiflix.png';
-import {
-  Card,
-  Center,
-  Container,
-  Layout,
-  Row
-} from '../styles/StyledComponent';
-import { Text } from '../styles/Typography';
+import {Card, Center, Container, Layout, Row} from '../styles/StyledComponent';
+import {Text} from '../styles/Typography';
 import ButtonCustom from '../components/ButtonCustom';
 import styled from 'styled-components';
-import { theme } from '../styles/ThemeColor';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { getShowTime } from '../redux/actions/showtime';
-import { getMovieDetail } from '../redux/actions/movie';
-import { createOrder } from '../redux/actions/order';
-import { connect } from 'react-redux';
+import {theme} from '../styles/ThemeColor';
+import {getShowTime} from '../redux/actions/showtime';
+import {getMovieDetail} from '../redux/actions/movie';
+import {createOrder} from '../redux/actions/order';
+import {connect} from 'react-redux';
 import Moment from 'react-moment';
 import moment from 'moment';
 import listShowTime from '../utils/listShowTime';
-import { Picker } from '@react-native-picker/picker';
+import {Picker} from '@react-native-picker/picker';
 import listCity from '../utils/listCity';
 import listDate from '../utils/listDate';
 import http from '../helpers/http';
 
-const MapIcon = (props) => (
+const MapIcon = props => (
   <Icon {...props} color="#4E4B66" size={20} name="map-pin" />
 );
-const CalendarIcon = (props) => (
+const CalendarIcon = props => (
   <Icon {...props} color="#4E4B66" size={20} name="calendar" />
 );
 
@@ -46,7 +39,7 @@ export class MovieDetail extends Component {
       showLocDate: [],
       selectedTime: '',
       selectedDate: '',
-      selectedLocation: ''
+      selectedLocation: '',
     };
   }
   async componentDidUpdate(prevProps, prevState) {
@@ -55,18 +48,18 @@ export class MovieDetail extends Component {
       this.state.selectedDate !== prevState.selectedDate
     ) {
       const data = new URLSearchParams();
-      const { getItem } = this.props.route.params;
+      const {getItem} = this.props.route.params;
       data.append('date', this.state.selectedDate);
       data.append('location', this.state.selectedLocation);
       data.append('movie', getItem.id);
       const response = await http().get(`showtimes?${data.toString()}`);
       this.setState({
-        showResults: response.data.results
+        showResults: response.data.results,
       });
     }
   }
   sendOrder = () => {
-    const { getItem } = this.props.route.params;
+    const {getItem} = this.props.route.params;
     const getTime = this.state.selectedTime;
     const getLocation = this.state.selectedLocation;
     const getDate = this.state.selectedDate;
@@ -74,13 +67,13 @@ export class MovieDetail extends Component {
       getLocation,
       getDate,
       getTime,
-      getItem
+      getItem,
     );
     console.log(getOrder);
     this.props.navigation.navigate('order-seat');
   };
   render() {
-    const { getItem } = this.props.route.params;
+    const {getItem} = this.props.route.params;
     console.log(this.state.selectedLocation);
     console.log(this.state.selectedDate);
     console.log(this.state.selectedTime);
@@ -91,7 +84,7 @@ export class MovieDetail extends Component {
             {/* section 1 */}
             <Center>
               <Card>
-                <Image source={{ uri: getItem.picture }} />
+                <Image source={{uri: getItem.picture}} />
               </Card>
               <Text semibold size="20" mt="10">
                 {getItem.title}
@@ -154,19 +147,17 @@ export class MovieDetail extends Component {
             </Center>
             <Picker
               selectedValue={this.state.selectedDate}
-              onValueChange={(item) => this.setState({ selectedDate: item })}>
+              onValueChange={item => this.setState({selectedDate: item})}>
               <Picker.Item label="Set a date" />
-              {listDate.map((item) => (
+              {listDate.map(item => (
                 <Picker.Item value={item.name} label={item.name} />
               ))}
             </Picker>
             <Picker
               selectedValue={this.state.selectedLocation}
-              onValueChange={(item) =>
-                this.setState({ selectedLocation: item })
-              }>
+              onValueChange={item => this.setState({selectedLocation: item})}>
               <Picker.Item label="Set a city" />
-              {listCity.map((item) => (
+              {listCity.map(item => (
                 <Picker.Item value={item.id} label={item.name} />
               ))}
             </Picker>
@@ -174,13 +165,13 @@ export class MovieDetail extends Component {
             <FlatList
               data={this.state.showResults}
               keyExtractor={(item, index) => String(item.id)}
-              renderItem={({ item }) => {
+              renderItem={({item}) => {
                 let ParentData = item;
                 return (
                   <Card mt="30">
                     <Center>
                       <Image
-                        source={{ uri: item.picture }}
+                        source={{uri: item.picture}}
                         style={styles.cinemaImg}
                       />
                     </Center>
@@ -189,12 +180,12 @@ export class MovieDetail extends Component {
                     </Text>
 
                     <Divider />
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                      {item.times.map((times) => (
+                    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                      {item.times.map(times => (
                         <TouchableOpacity
                           onPress={() =>
                             this.setState({
-                              selectedTime: { times, ParentData }
+                              selectedTime: {times, ParentData},
                             })
                           }>
                           <TextTime>{times.time}</TextTime>
@@ -256,7 +247,7 @@ const Image = styled.Image`
   width: 159;
   height: 244;
   border-radius: 8;
-  margin-top: ${(props) => props.mt || '0'};
+  margin-top: ${props => props.mt || '0'};
 `;
 const TextTime = styled.Text`
   font-family: 'Mulish-Light';
@@ -275,31 +266,31 @@ const Divider = styled.View`
 const styles = StyleSheet.create({
   btn: {
     flex: 1,
-    maxWidth: '40%'
+    maxWidth: '40%',
   },
   cinemaImg: {
     height: 30,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   wrapperDesc: {
-    flex: 1
+    flex: 1,
   },
   btnPrev: {
-    minWidth: '15%'
+    minWidth: '15%',
   },
   picker: {
     backgroundColor: `${theme.bg}`,
     borderRadius: 12,
     marginTop: 10,
-    padding: 10
-  }
+    padding: 10,
+  },
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   movie: state.movie,
   showtime: state.showtime,
-  order: state.order
+  order: state.order,
 });
-const mapDispatchToProps = { getMovieDetail, getShowTime, createOrder };
+const mapDispatchToProps = {getMovieDetail, getShowTime, createOrder};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetail);

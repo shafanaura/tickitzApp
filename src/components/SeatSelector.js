@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import React, {Component} from 'react';
+import {View, StyleSheet} from 'react-native';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
-import { Text } from '../styles/Typography';
-import { Card, Container, Layout, Row } from '../styles/StyledComponent';
-import { theme } from '../styles/ThemeColor';
+import {Text} from '../styles/Typography';
+import {Card, Container, Layout, Row} from '../styles/StyledComponent';
+import {theme} from '../styles/ThemeColor';
 import ButtonCustom from '../components/ButtonCustom';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { sendSeatOrder } from '../redux/actions/order';
-import { connect } from 'react-redux';
+import {sendSeatOrder} from '../redux/actions/order';
+import {connect} from 'react-redux';
 
 const SEAT_FIRST_INDEX = 'A';
 const SEAT_LAST_INDEX = 'G';
@@ -64,16 +63,16 @@ export default class SeatSelector extends Component {
         SEAT_FIRST_INDEX,
         SEAT_LAST_INDEX,
         SEAT_COUNT_PER_ROW,
-        next
+        next,
       );
-    const { selectedSeat, soldSeat } = this.props;
+    const {selectedSeat, soldSeat} = this.props;
     return (
       <Card>
         <DividerScreen />
         <Row justify="space-between">
           <View>
             <View style={seatSelectorStyles.parent}>
-              {seat().map((i) => (
+              {seat().map(i => (
                 <TouchableOpacity
                   onPress={() => this.onSelect(i)}
                   disabled={soldSeat.includes(i)}>
@@ -82,7 +81,7 @@ export default class SeatSelector extends Component {
                       seatSelectorStyles.seat,
                       selectedSeat.includes(i) &&
                         seatSelectorStyles.selectedSeat,
-                      soldSeat.includes(i) && seatSelectorStyles.soldSeat
+                      soldSeat.includes(i) && seatSelectorStyles.soldSeat,
                     ]}
                   />
                 </TouchableOpacity>
@@ -93,7 +92,7 @@ export default class SeatSelector extends Component {
 
           <View>
             <View style={seatSelectorStyles.parent}>
-              {seat(true).map((i) => (
+              {seat(true).map(i => (
                 <TouchableOpacity
                   onPress={() => this.onSelect(i)}
                   disabled={soldSeat.includes(i)}>
@@ -102,7 +101,7 @@ export default class SeatSelector extends Component {
                       seatSelectorStyles.seat,
                       selectedSeat.includes(i) &&
                         seatSelectorStyles.selectedSeat,
-                      soldSeat.includes(i) && seatSelectorStyles.soldSeat
+                      soldSeat.includes(i) && seatSelectorStyles.soldSeat,
                     ]}
                   />
                 </TouchableOpacity>
@@ -155,26 +154,26 @@ export default class SeatSelector extends Component {
 const seatSelectorStyles = StyleSheet.create({
   root: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   parent: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: SEAT_COUNT_PER_ROW * (SEAT_SIZE + SEAT_MARGIN * 2)
+    width: SEAT_COUNT_PER_ROW * (SEAT_SIZE + SEAT_MARGIN * 2),
   },
   seat: {
     margin: SEAT_MARGIN,
     width: SEAT_SIZE,
     height: SEAT_SIZE,
     backgroundColor: '#D6D8E7',
-    borderRadius: 2
+    borderRadius: 2,
   },
   selectedSeat: {
-    backgroundColor: '#5F2EEA'
+    backgroundColor: '#5F2EEA',
   },
   soldSeat: {
-    backgroundColor: '#6E7191'
-  }
+    backgroundColor: '#6E7191',
+  },
 });
 
 const TextDesc = styled.Text`

@@ -1,50 +1,49 @@
-import React, { Component } from 'react';
-import { FlatList, View, TouchableOpacity, StyleSheet } from 'react-native';
+import React, {Component} from 'react';
+import {FlatList, View, TouchableOpacity, StyleSheet} from 'react-native';
 import listMonth from '../utils/listMonth';
 import listComingMovie from '../utils/listComingMovie';
-import { Card, Center, Container, Row } from '../styles/StyledComponent';
-import { ScrollView } from 'react-native-gesture-handler';
+import {Card, Center, Container, Row} from '../styles/StyledComponent';
+import {ScrollView} from 'react-native-gesture-handler';
 import styled from 'styled-components';
-import { Text } from '../styles/Typography';
+import {Text} from '../styles/Typography';
 import ButtonCustom from '../components/ButtonCustom';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {
   getSortMovie,
   getSearchMovie,
   getOrderMovie,
-  getAllMovie
+  getAllMovie,
 } from '../redux/actions/movie';
-import { withNavigation } from 'react-navigation';
 import FormInput from '../components/Form/FormInput';
 import moment from 'moment';
-import { Picker } from '@react-native-picker/picker';
+import {Picker} from '@react-native-picker/picker';
 import http from '../helpers/http';
 
 export class ViewAll extends Component {
   state = {
     search: '',
     sort: '',
-    order: ''
+    order: '',
   };
   async componentDidMount() {
     await this.props.getAllMovie();
   }
-  gotoDetail = (id) => {
+  gotoDetail = id => {
     this.props.navigation.navigate('movie-detail');
   };
-  changeText = async (search) => {
+  changeText = async search => {
     await this.setState(this.props.getSearchMovie(search));
   };
-  changeSort = async (sort) => {
-    await this.setState({ sort: sort });
+  changeSort = async sort => {
+    await this.setState({sort: sort});
     await this.props.getSortMovie(this.state.sort);
   };
-  changeOrder = async (order) => {
-    await this.setState({ order: order });
+  changeOrder = async order => {
+    await this.setState({order: order});
     await this.props.getOrderMovie(this.state.order);
   };
   render() {
-    const { movie } = this.props;
+    const {movie} = this.props;
     return (
       <Container bgColor="transparent">
         <TextInput
@@ -74,10 +73,10 @@ export class ViewAll extends Component {
         <FlatList
           data={movie.movies}
           keyExtractor={(item, index) => String(item.id)}
-          renderItem={({ item }) => (
-            <Card mr="20" mt="10">
+          renderItem={({item}) => (
+            <Card mt="10">
               <Center>
-                <Image source={{ uri: item.picture }} />
+                <Image source={{uri: item.picture}} />
                 <Text semibold size="16" mt="10">
                   {item.title}
                 </Text>
@@ -92,7 +91,7 @@ export class ViewAll extends Component {
               <ButtonCustom
                 onPress={() =>
                   this.props.navigation.navigate('movie-detail', {
-                    getItem: item
+                    getItem: item,
                   })
                 }
                 size="small"
@@ -112,8 +111,8 @@ export class ViewAll extends Component {
 
 const styles = StyleSheet.create({
   picker: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 const Image = styled.Image`
@@ -129,17 +128,15 @@ const TextInput = styled.TextInput`
   margin: 10px 0;
 `;
 
-const mapStateToProps = (state) => ({
-  movie: state.movie
+const mapStateToProps = state => ({
+  movie: state.movie,
 });
 
 const mapDispatchToProps = {
   getSortMovie,
   getSearchMovie,
   getOrderMovie,
-  getAllMovie
+  getAllMovie,
 };
 
-export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(ViewAll)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewAll);

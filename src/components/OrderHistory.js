@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Image, StyleSheet, RefreshControl, FlatList } from 'react-native';
-import { Card, Container, Layout } from '../styles/StyledComponent';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, {Component} from 'react';
+import {Image, StyleSheet, RefreshControl, FlatList} from 'react-native';
+import {Card, Container, Layout} from '../styles/StyledComponent';
+import {ScrollView} from 'react-native-gesture-handler';
 import Footer from './Footer';
 import styled from 'styled-components';
 import ButtonCustom from './ButtonCustom';
-import { Text } from '../styles/Typography';
-import { connect } from 'react-redux';
-import { getOrderUser } from '../redux/actions/order';
+import {Text} from '../styles/Typography';
+import {connect} from 'react-redux';
+import {getOrderUser} from '../redux/actions/order';
 import moment from 'moment';
 
 class OrderHistory extends Component {
@@ -16,24 +16,24 @@ class OrderHistory extends Component {
     this.state = {
       message: '',
       isLoading: false,
-      refreshing: false
+      refreshing: false,
     };
   }
   async componentDidMount() {
     await this.props.getOrderUser(
       this.props.auth.token,
-      this.props.auth.userData.id
+      this.props.auth.userData.id,
     );
   }
   _onRefresh = () => {
-    this.setState({ refreshing: true });
+    this.setState({refreshing: true});
     fetchData().then(() => {
-      this.setState({ refreshing: false });
+      this.setState({refreshing: false});
     });
   };
   render() {
     console.log(this.props);
-    const { allOrder } = this.props.order;
+    const {allOrder} = this.props.order;
     return (
       <ScrollView
         refreshControl={
@@ -46,9 +46,9 @@ class OrderHistory extends Component {
           <FlatList
             data={allOrder}
             keyExtractor={(item, index) => String(item.id)}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <Card mt="20">
-                <Image style={styles.img} source={{ uri: item.picture }} />
+                <Image style={styles.img} source={{uri: item.picture}} />
                 <TextDate>
                   {moment(item.dateTime).format('D MMMM YYYY')} - {item.time}
                 </TextDate>
@@ -83,21 +83,21 @@ const styles = StyleSheet.create({
   img: {
     width: 100,
     height: 30,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   btn: {
     borderRadius: 8,
-    marginVertical: 20
-  }
+    marginVertical: 20,
+  },
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   auth: state.auth,
-  order: state.order
+  order: state.order,
 });
 
 const mapDispatchToProps = {
-  getOrderUser
+  getOrderUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderHistory);

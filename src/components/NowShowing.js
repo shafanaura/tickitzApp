@@ -1,24 +1,23 @@
-import React, { Component } from 'react';
-import { Text } from '../styles/Typography';
+import React, {Component} from 'react';
+import {Text} from '../styles/Typography';
 import styled from 'styled-components';
-import { Card, Row } from '../styles/StyledComponent';
-import { connect } from 'react-redux';
-import { getAllMovie } from '../redux/actions/movie';
-import { FlatList, TouchableOpacity, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import {Card, Row} from '../styles/StyledComponent';
+import {connect} from 'react-redux';
+import {getAllMovie} from '../redux/actions/movie';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 
 export class NowShowing extends Component {
   async componentDidMount() {
     this.props.getAllMovie();
   }
-  gotoDetail = (id) => {
+  gotoDetail = id => {
     this.props.navigation.navigate('movie-detail', {});
   };
-  getId = (id) => {
+  getId = id => {
     console.log(id);
   };
   render() {
-    const { movie } = this.props;
+    const {movie} = this.props;
     return (
       <View>
         <Row justify="space-between" m="10px 0">
@@ -36,15 +35,15 @@ export class NowShowing extends Component {
           horizontal
           data={movie.movies}
           keyExtractor={(item, index) => String(item.id)}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <TouchableOpacity
               onPress={() =>
                 this.props.navigation.navigate('movie-detail', {
-                  getItem: item
+                  getItem: item,
                 })
               }>
               <Card mr="20" mt="10">
-                <Image source={{ uri: item.picture }} />
+                <Image source={{uri: item.picture}} />
               </Card>
             </TouchableOpacity>
           )}
@@ -59,14 +58,12 @@ const Image = styled.Image`
   width: 122;
   border-radius: 8;
 `;
-const mapStateToProps = (state) => ({
-  movie: state.movie
+const mapStateToProps = state => ({
+  movie: state.movie,
 });
 
 const mapDispatchToProps = {
-  getAllMovie
+  getAllMovie,
 };
 
-export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(NowShowing)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(NowShowing);
